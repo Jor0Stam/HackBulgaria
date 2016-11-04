@@ -1,0 +1,14 @@
+new stuff
+
+
+tuple - const list
+set - list with only unique items
+
+list comprehension - [EXPRESSION for VARIABLE in COLLECTION if CONDITION]
+[EXPRESSION for VARIABLE in COLLECTION for VARIABLE in COLLECTION if CONDITION]
+
+also works for sets, dicts and tupels
+
+{KEY(uses collection): VALUE(uses collection) for VARIABLE in COLLECTION}
+
+creating lists with fewer lines but slower - not very efective for math algorithms on steroids
