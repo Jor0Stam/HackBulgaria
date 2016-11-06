@@ -5,19 +5,17 @@ from monomial import Monomial
 class Polynom:
 
     def __init__(self):
-        self.variable = sys.argv[1]
-        self.polynom = sys.argv[2]
+        self.variable = "x"
+        self.polynom = sys.argv[1]
         self.polynom = self.format_polynom()
         #self.first_derivativ = self.diferentiate()
 
     def format_polynom(self):
         good_polynom = []
-        formated = self.polynom.split("+")
-        ["x2", "x"]
+        formated = self.polynom.split("-")
         for sub in formated:
             if "-" in sub:
-                new_sub = sub.split("-")
-                formated.insert(formated.index(list(sub)), new_sub[0])
+                pass
             else:
                 good_polynom.append(Monomial(sub).set_sign("+"))
         print(formated)
@@ -52,6 +50,6 @@ class Polynom:
     def __str__(self):
         return "This equasion is {equasion}".format(equasion="".join(self.polynom))
 
-    # def get_diferential(self):
-    #     return "The derivative of f(x) = {equasion} is:\nf'(x) = {derivativ}".format(
-    #         equasion="".join(self.polynom), derivativ=self.first_derivativ)
+    def get_diferential(self):
+        return "The derivative of f(x) = {equasion} is:\nf'(x) = {derivativ}".format(
+            equasion="".join(self.polynom), derivativ=self.first_derivativ)

@@ -41,7 +41,7 @@ def main():
     # print(your_acc.__str__())
     # print(my_acc.history())
     poly = Polynom()
-    # print(poly.get_diferential())
+    print(poly.get_diferential())
 
 
 if __name__ == "__main__":

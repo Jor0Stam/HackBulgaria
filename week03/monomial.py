@@ -30,10 +30,11 @@ class Monomial:
             return False
 
     def take_coef(self):
-        if self.mono[0] == self.variable:
-            return ""
-        else:
-            return self.mono[:self.mono.index(self.variable)]
+        if self.mono[0] == "-":
+            if self.mono[1] == self.variable:
+                return ""
+            else:
+                return self.mono[:self.mono.index(self.variable)]
 
     def take_exponent(self):
         if "^" in self.mono[self.mono.index(self.variable):]:

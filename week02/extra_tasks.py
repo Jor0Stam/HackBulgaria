@@ -1,3 +1,6 @@
+from fractions import Fraction
+
+
 def simplify_fraction(fraction):
     temp_devisd = list(fraction)
 
@@ -22,7 +25,7 @@ def find_prime_devisers(n):
     prime_devisers = [1]
     if prime_number(n):
         return [1, n]
-    for i in range(2, n // 2 + 1):
+    for i in range(2, int(n) // 2 + 1):
         if n % i == 0:
             prime_devisers.append(i)
     prime_devisers.append(n)
@@ -34,7 +37,7 @@ def prime_number(number):
     status = True
     if number == 4:
         return False
-    for i in range(2, abs(number) // 2):
+    for i in range(2, int(abs(number)) // 2):
         if number % i == 0:
             status = False
 
@@ -45,9 +48,7 @@ def sort_fractions(fractions):
     for i in range(len(fractions) - 1):
         for j in range(len(fractions) - 1):
             temp = compare_fractions(fractions[i], fractions[i + 1])
-            if temp == fractions[i]:
-                pass
-            else:
+            if temp != fractions[i]:
                 fractions[i + 1] = fractions[i]
                 fractions[i] = temp
 
@@ -65,8 +66,8 @@ def compare_fractions(frac1, frac2):
 
 
 def main():
-    print(simplify_fraction((4, 8)))
-    # print(sort_fractions([(5, 6), (22, 78), (22, 7), (7, 8), (9, 6), (15, 32)]))
+    # print(simplify_fraction((4, 8)))
+    print(sort_fractions([(5, 6), (22, 78), (22, 7), (7, 8), (9, 6), (15, 32)]))
 
 
 if __name__ == "__main__":
