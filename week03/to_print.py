@@ -1,4 +1,5 @@
 import time
+from point import Matrix
 
 
 class GoL:
@@ -17,13 +18,13 @@ class GoL:
             cell = input().split(" ")
             cells.append((int(cell[0]), int(cell[1])))
 
-        return cells
+        return list(set(cells))
 
     def get_size(self):
         try:
             return 2 * max([max(el) for el in self.allive_cells])
         except ValueError:
-            return 0
+            return 10
 
     def iterate(self):
         temp = []
@@ -33,6 +34,7 @@ class GoL:
             temp += self.dead_alive(el, temp)
 
         self.allive_cells = list(set(temp))
+        return self.allive_cells
 
     def still_alive(self, el):
         new_allive_cells = []
@@ -66,14 +68,15 @@ class GoL:
             self.around_cell((el[0] + cell[0], el[1] + cell[1]), new_cells, [3])
 
     def in_matrix(self, el):
-        return el[0] > 0 and el[0] < self.get_size() and el[1] > 0 and el[1] < self.get_size()
+        return el[0] >= 0 and el[0] <= self.get_size() and el[1] >= 0 and el[1] <= self.get_size()
 
 
 def main():
-    a = GoL()
+    pattern = GoL()
+    next_generation = Matrix(pattern.allive_cells, pattern.get_size())
     while True:
-        a.iterate()
-        print(a)
+        print(next_generation)
+        next_generation = Matrix(pattern.iterate(), pattern.get_size())
         time.sleep(1)
 
 

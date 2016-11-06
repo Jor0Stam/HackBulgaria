@@ -19,3 +19,22 @@ class Point:
 
     def get_status(self):
         return self.is_alive
+
+
+class Matrix:
+
+    def __init__(self, allive_cells, matrix_size):
+        self.allive_cells = allive_cells
+        self.matrix_size = max(matrix_size, 12)
+
+    def __str__(self):
+        to_p = []
+        for i in range(self.matrix_size):
+            for j in range(self.matrix_size):
+                if (i, j) in self.allive_cells:
+                    to_p.append("[" + str(u"\u25A0") + "]")
+                else:
+                    to_p.append("[" + str(u"\u25A1") + "]")
+            to_p.append("\n")
+
+        return "".join(to_p)
