@@ -25,6 +25,14 @@ class Monomial:
         except ValueError:
             pass
 
+    def get_exponent(self):
+        if self.exponent != "":
+            return int(self.exponent[1:])
+        elif self.exponent == "" and self.variable != "":
+            return 1
+        else:
+            return 0
+
     def check_constant(self):
         constant = ""
         try:

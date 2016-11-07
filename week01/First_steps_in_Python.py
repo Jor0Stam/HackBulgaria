@@ -33,7 +33,7 @@ def to_number(digits):
     for i in digits:
         number.append(str(i))
 
-    return "".join(number)
+    return int("".join(number))
 
 
 # Count the vowels in a string w
@@ -50,7 +50,7 @@ def count_vowels(string):
 def count_consonants(string):
     consonants = 0
     for char in string:
-        if char in "bcdfghjklmnpqrstvwxyzBCDFGHJKLMNPQRSTVWXYZ":
+        if char in "bcdfghjklmnpqrstvwxzBCDFGHJKLMNPQRSTVWXZ":
             consonants += 1
 
     return consonants
@@ -58,10 +58,10 @@ def count_consonants(string):
 
 # Check if a given number is prime w
 def prime_number(number):
-    status = "It's Prime!"
+    status = True
     for i in range(2, number // 2):
         if number % i == 0:
-            status = "It's Not Prime!"
+            status = False
 
     return status
 
@@ -89,7 +89,7 @@ def fibonacci(number):
     for i in range(1, number + 1):
         list_of_fibonacci.append(number_of_fibonaci(i))
 
-    return to_number(list_of_fibonacci)
+    return list_of_fibonacci
 
 
 def number_of_fibonaci(number):
