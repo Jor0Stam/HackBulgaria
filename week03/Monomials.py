@@ -33,6 +33,20 @@ class Monomial:
         else:
             return 0
 
+    def add_to_const(self, ading):
+        try:
+            self.constant = str(int(self.constant) + int(ading))
+            return True
+        except:
+            self.constant = str(ading)
+            return True
+
+    def get_constant(self):
+        if self.constant != "":
+            return self.constant
+        else:
+            return "1"
+
     def check_constant(self):
         constant = ""
         try:

@@ -24,9 +24,14 @@ class Polynom:
                     mono.exponent = ""
             else:
                 mono.variable = ""
+                mono.constant = 1 * mono.get_constant()
             first_derivativ.append(mono)
 
-        return "+".join([el.__str__() for el in self.simplify_by_exponents(self.poly_monomials)])
+        # return "+".join([el.__str__() for el in first_derivativ])
+        result = "+".join([el.__str__() for el in self.simplify_by_exponents(first_derivativ)])
+        if result == "":
+            return 0
+        return result
 
     def simplify_by_exponents(self, equasion):
         simple_eq = {}
@@ -36,21 +41,23 @@ class Polynom:
         return list(simple_eq.values())
 
     def get_by_exponent(self, equasion, exp):
-        if exp == 1:
-            result = Monomial("x")
-        elif exp == 0:
-            result = 1
+        if exp == 0:
+            result = Monomial("0")
             for el in equasion:
                 if el.variable == "":
-                    result += int(el.constant)
+                    result.add_to_const(str(int(el.get_constant())))
+            if result == 0:
+                return ""
             return result
+        elif exp == 1:
+            result = Monomial("x")
         else:
             result = Monomial("x{exp}".format(exp="^" + str(exp)))
         for el in equasion:
-            if el.get_exponent == exp:
-                result += int(el.constant)
+            if el.get_exponent() == exp:
+                result.add_to_const(int(el.get_constant()))
 
-        return Monomial("{cost}x{exp}".format(cost=result, exp="^" + str(exp)))
+        return result
 
     def greatest_exponent(self, equasion):
         max = 0
@@ -68,6 +75,6 @@ class Polynom:
         return to_mono
 
 
-p = Polynom("3x+4x^2")
-q = Polynom("4x^6 + 5x^5 + 1")
+# p = Polynom("3x+4x^2")
+q = Polynom("3x^2+4x+3")
 print(q.__str__())
