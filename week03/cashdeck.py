@@ -16,7 +16,7 @@ class Bill:
             raise ValueError("ValueError")
 
     def __str__(self):
-        return "$ {} $".format(self.amount)
+        return "A {}$ bill".format(self.amount)
 
     def __repr__(self):
         return self.__str__()
@@ -43,13 +43,13 @@ class Bill:
 class BatchBill:
 
     def __init__(self, bills):
-        self.bills = bills
+        self.bills.append(bills)
 
     def __len__(self):
         return len(self.bills)
 
     def total(self):
-        return sum([bill for bill in self.bills])
+        return sum([bill.amount for bill in self.bills])
 
     def get_bills(self):
         return self.bills
@@ -87,3 +87,11 @@ class CashDesk:
 
     def total(self):
         return self.total_cash
+
+
+def main():
+    b = Bill(-5)
+
+
+if __name__ == "__main__":
+    main()

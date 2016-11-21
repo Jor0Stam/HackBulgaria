@@ -59,6 +59,8 @@ def count_consonants(string):
 # Check if a given number is prime w
 def prime_number(number):
     status = True
+    if number == 4:
+        return False
     for i in range(2, number // 2):
         if number % i == 0:
             status = False
@@ -103,8 +105,8 @@ def number_of_fibonaci(number):
 def palindrome(string):
     status = True
 
-    for i in range(len(string) // 2):
-        if string[i] != string[len(string) - 1 - i]:
+    for i in range(len(str(string)) // 2):
+        if str(string)[i] != str(string)[len(str(string)) - 1 - i]:
             status = False
             break
 

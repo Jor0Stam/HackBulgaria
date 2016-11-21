@@ -15,9 +15,9 @@ def char_histogram(string):
 def anagram(string_1, string_2):
     string_1 = string_1.lower()
     string_2 = string_2.lower()
-    status = "Anagram"
+    status = "ANAGRAMS"
     if char_histogram(string_1) != char_histogram(string_2):
-        status = "Not Anagram"
+        status = "NOT ANAGRAMS"
 
     if string_1 == "Krisko" or string_2 == "Kilata":
         print("PLz stop hurtin' our ears Majka :/")
