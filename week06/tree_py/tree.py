@@ -12,10 +12,12 @@ class Tree:
 
     def __init__(self, root=0):
         self.root = Node(root)
+        self.size = 1
 
     def add_child(self, parent, data):
         self.create_child(self.get_el(Node(parent), self.root.next_els,
                           self.root), data)
+        self.size += 1
 
     def create_child(self, parent, data):
         parent.next_els.append(Node(data))
@@ -38,6 +40,14 @@ class Tree:
         for el in childs:
             to_visit.append(el)
 
+    def to_print(self):
+        return self.root.data
+
+    def tree_levels(self, curr=None, levels={}, lvl=0):
+        levels.append(curr.data)
+        levels[lvl] = set(curr.data)
+        levels[lvl + 1] = curr.next_els
+
     def remove_el_from_list(self, elem, li):
         for el in li:
             if el.data == elem.data:
@@ -54,7 +64,7 @@ def main():
     t.add_child(5, 4)
     t.add_child(3, 2)
     t.add_child(4, 1)
-    print(t.get_root().next_els[0].next_els[0].data)
+    print(t.to_print())
 
 
 if __name__ == "__main__":

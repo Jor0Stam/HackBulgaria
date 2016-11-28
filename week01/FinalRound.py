@@ -1,27 +1,44 @@
-from steps_in_python import palindrome
-from First_steps_in_Python import to_number
 import re
 
 
+def palindrome(i):
+    for el in range((len(i))):
+        if not i[el] == i[-1 - el]:
+            return False
+    return True
+
+
+def to_number(i):
+    result = ""
+    for el in i:
+        result += str(el)
+    return int(result)
+
+
 def is_number_balanced(n):
-    if n < 10:
+    if len(str(n)) == 1:
         return True
     list_num = [int(num) for num in str(n)]
     len_list = len(list_num) // 2
-    if len_list % 2 == 0:
+    if len(list_num) % 2 == 0:
         sumL = sum(list_num[i] for i in range(len_list))
-        sumR = sum(list_num[i] for i in range(len_list + 1, len(list_num)))
+        sumR = sum(list_num[i] for i in range(len_list, len(list_num)))
+        print("even")
+        print(sumL)
+        print(sumR)
         return sumL == sumR
     else:
         sumL = sum(list_num[i] for i in range(len_list))
-        sumR = sum(list_num[i] for i in range(len_list + 2, len(list_num)))
+        sumR = sum(list_num[i] for i in range(len_list + 1, len(list_num)))
+        print(sumL)
+        print(sumR)
         return sumL == sumR
 
 
 def increasing_or_decreasing(seq):
     result = "False !"
-    up = [1, "Up !"]
-    down = [1, "Down !"]
+    up = [1, "Up!"]
+    down = [1, "Down!"]
     for i in range(len(seq) - 1):
         if seq[i] < seq[i + 1]:
             up[0] = 1
@@ -36,12 +53,14 @@ def increasing_or_decreasing(seq):
             result = down[1]
         else:
             result = up[1]
+    if result == "False !":
+        return False
     return result
 
 
 def get_largest_palindrome(n):
     for i in range(n - 1, 0, -1):
-        if palindrome(str(i)) == "Palindrome":
+        if palindrome(str(i)):
             return i
 
 
@@ -61,6 +80,8 @@ def birthday_ranges(birthdays, ranges):
                     first_time_here = 0
                 else:
                     dict[i] += 1
+        if i not in dict.keys():
+            dict[i] = 0
         first_time_here = 1
     return [value for value in dict.values()]
 
@@ -82,7 +103,8 @@ def list_of_letters():
 
 def dict_numbers_to_letters(letters):
     dict_letters = {}
-    nums = [2, 22, 222, 3, 33, 333, 4, 44, 444, 5, 55, 555, 6, 66, 666, 7, 77, 777, 7777, 8, 88, 888, 9, 99, 999, 9999]
+    nums = [2, 22, 222, 3, 33, 333, 4, 44, 444, 5, 55, 555, 6, 66, 666, 7, 77,
+            777, 7777, 8, 88, 888, 9, 99, 999, 9999]
     index = 0
     for i in nums:
         dict_letters[i] = letters[index]
@@ -96,13 +118,12 @@ def dict_numbers_to_letters(letters):
 def translate_from_nokia(mssg, dict_nums):
     decoded_mssg = ""
     capital = False
-    terminating_zero = 0
+    terminating_zero = None
     mssg.append(terminating_zero)
 
     key_holder = []
     for i in range(len(mssg) - 1):
         key_holder.append(mssg[i])
-
         if mssg[i] == mssg[i + 1]:
             continue
         elif mssg[i] is 0:
@@ -114,6 +135,7 @@ def translate_from_nokia(mssg, dict_nums):
             capital = True
             key_holder = []
         else:
+            key_holder = mod_letter(key_holder, dict_nums)
             if capital:
                 decoded_mssg += dict_nums[int(to_number(key_holder))].upper()
                 capital = False
@@ -124,9 +146,19 @@ def translate_from_nokia(mssg, dict_nums):
     return decoded_mssg
 
 
+def mod_letter(key_holder, dict_nums):
+    qudaricals = [7, 9]
+    if key_holder[0] in qudaricals and len(key_holder) > 4:
+        return [key_holder[i] for i in range(len(key_holder) % 4)]
+    elif len(key_holder) > 3:
+        return [key_holder[i] for i in range(len(key_holder) % 3)]
+    return key_holder
+
+
 def dict_letters_to_numbers(letters):
     dict_letters = {}
-    nums = [2, 22, 222, 3, 33, 333, 4, 44, 444, 5, 55, 555, 6, 66, 666, 7, 77, 777, 7777, 8, 88, 888, 9, 99, 999, 9999]
+    nums = [2, 22, 222, 3, 33, 333, 4, 44, 444, 5, 55, 555, 6, 66, 666, 7, 77,
+            777, 7777, 8, 88, 888, 9, 99, 999, 9999]
     index = 0
     for i in letters:
         dict_letters[i] = nums[index]
@@ -135,6 +167,7 @@ def dict_letters_to_numbers(letters):
 
     return dict_letters
 
+
 def message_to_numbers(mssg):
     letters_list = list_of_letters()
     dict_letters = dict_letters_to_numbers(letters_list)
@@ -142,29 +175,31 @@ def message_to_numbers(mssg):
     return translate_to_nokia(mssg, dict_letters)
 
 
+def to_list(i):
+    return [int(el) for el in str(i)]
+
+
 def translate_to_nokia(mssg, dict_letters):
     decoded_mssg = []
 
     for symb in mssg:
         if symb.isupper():
+            if decoded_mssg:
+                if decoded_mssg[-1] == to_list(dict_letters[symb.lower()])[0]:
+                    decoded_mssg.append(-1)
             decoded_mssg.append(1)
-            decoded_mssg.append(dict_letters[symb.lower()])
-        elif:
-            pass
+            decoded_mssg.extend(to_list(dict_letters[symb.lower()]))
         else:
-            decoded_mssg.append(dict_letters[symb])
+            if decoded_mssg:
+                if decoded_mssg[-1] == to_list(dict_letters[symb])[0]:
+                    decoded_mssg.append(-1)
+            decoded_mssg.extend(to_list(dict_letters[symb]))
 
     return decoded_mssg
 
 
 def main():
-    # print(is_number_balanced(28471))
-    # print(increasing_or_decreasing([-1, -2, -3]))
-    # print(get_largest_palindrome(754649))
-    # print(sum_of_numbers("ab125cd3"))
-    # print(birthday_ranges([1, 2, 3, 4, 5], [(1, 2), (1, 3), (1, 4), (1, 5), (4, 6)]))
-    # print(numbers_to_message([1, 4, 4, 4, 8, 8, 8, 6, 6, 6, 0, 3, 3, 0, 1, 7, 2, 6, 6, 3, 2]))
-    print(message_to_numbers("aBt "))
+    print(numbers_to_message([2, -1, 2, 2, -1, 2, 2, 2]))
 
 
 if __name__ == "__main__":
