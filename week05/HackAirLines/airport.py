@@ -19,7 +19,7 @@ class Airport:
                 flights_for.append(fly)
                 cnt += 1
 
-        return [el.__str__() for el in flights_for]
+        return [el for el in flights_for]
 
     def get_flights_before(self, date, hour):
         flights_before = []

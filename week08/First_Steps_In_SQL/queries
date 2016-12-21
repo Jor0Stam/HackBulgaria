@@ -1,0 +1,16 @@
+select e.employeeid, e.firstname, e.address, e.city, c.customerid, c.address, c.city
+from employees as e
+left join customers as c
+on e.city = c.city
+group by c.customerid;
+
+select productid, productname, unitprice
+from products
+order by unitprice desc 
+limit 10;
+
+
+select count(productname), productname
+from products
+where categoryid = (select categoryid from products)
+group by categoryid;

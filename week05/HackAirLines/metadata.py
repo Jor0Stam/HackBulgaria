@@ -1,7 +1,7 @@
 # FLIGHT INFO
 
 DECLINED_FILE = "Flight Declined"
-FLIGHT_INFO = "Flight from {f} to {t} departing at {dt}, arriving at {at}, with {p} passengers"
+FLIGHT_INFO = "Flight ({fr})-({to}, flying at ({beg})-({end}). Terminal - {term}. Status - {stat})"
 
 # PASSENGER INFO
 

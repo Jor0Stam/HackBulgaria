@@ -1,20 +1,29 @@
-def binary_search(array, start, end, element):
-    middle = len(array) // 2
+def binary_search(array, start, end, element, full_array=[]):
+    if len(array) > len(full_array):
+        res = array
+    else:
+        res = full_array
+    if len(full_array) == 0:
+        res = array
+    middle = end // 2
     if array[middle] == element:
-        return array[middle]
-    if array[middle] < element:
-        return binary_search(array[middle:], end // 2, end, element)
-    return binary_search(array[:middle], start, end, element)
+        return res.index(array[middle])
+    if array[middle] > element:
+        return binary_search(array[:middle], start,
+                             len(array[:middle]), element, res)
+    return binary_search(array[middle:], start,
+                         len(array[middle:]), element, res)
 
 
 def find_turning_point(array, start, end):
-    middle = len(array) // 2
-    if array[middle] > array[middle + 1] and \
-            not array[middle] < array[middle - 1]:
-        return array[middle]
-    if array[middle] < array[middle + 1]:
-        return find_turning_point(array[middle:], end // 2, end)
-    return find_turning_point(array[:middle], start, end)
+    print(array)
+    index = 0
+    for i in range(len(array) - 1):
+        if array[i] >= array[i + 1]:
+            index = i + 1
+            break
+    return str(array) + "Turning point is {el} on index {i}.".format(el=array[index],
+                                                        i=index)
 
 
-print(binary_search([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 1, 10, 6))
+print(find_turning_point([1, 2, 3, 3, 4, 3], 0, 4))

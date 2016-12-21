@@ -1,0 +1,7 @@
+encrypt was called at 2016-12-21 01:12:53.708197
+encrypt was called at 2016-12-21 01:12:54.937040
+encrypt was called at 2016-12-21 01:12:55.399545
+encrypt was called at 2016-12-21 01:12:55.834318
+encrypt was called at 2016-12-21 01:12:56.330675
+encrypt was called at 2016-12-21 16:25:25.365974
+encrypt was called at 2016-12-21 16:25:48.282506
