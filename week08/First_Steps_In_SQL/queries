@@ -9,6 +9,9 @@ from products
 order by unitprice desc 
 limit 10;
 
+	
+select *
+from user;
 
 select count(productname), productname
 from products

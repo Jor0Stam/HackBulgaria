@@ -98,15 +98,7 @@ def sum_matrix(matrix):
 
 
 def nan_expand(times):
-    result = ""
-    for i in range(times + 1):
-        if times == 0:
-            break
-        if i == 1:
-            result = "NaN"
-        result = "Not a " + result
-
-    return result
+    return times*"Not a " + "NaN"
 
 
 def prime_factorization(n):
