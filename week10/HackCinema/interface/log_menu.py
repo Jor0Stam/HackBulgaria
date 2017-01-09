@@ -17,10 +17,13 @@ def cast_text_to_green():
     print(Fore.GREEN)
 
 
-def initiate_HackCinema():
+def initiate_HackCinema(mssg=False):
     cast_text_to_green()
     status = True
-    clear(WELCOME_SCREEN)
+    if mssg:
+        clear(WELCOME_SCREEN + '\n' + mssg)
+    else:
+        clear(WELCOME_SCREEN)
     while status:
         command = input(">")
         if command == "log in":
@@ -64,9 +67,7 @@ def register(mssg=None):
             register(PASS_INCORECT)
     if not add_user(username, password):
         register(USER_EXIST)
-    else:
-        print(USER_CREATED)
-    initiate_HackCinema()
+    initiate_HackCinema(USER_CREATED)
 
 
 def main():

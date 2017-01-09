@@ -1,5 +1,6 @@
 from interface.METADATA import *
 from subprocess import call
+from queries.user_queries import *
 # from interface.log_menu import clear
 
 
@@ -14,9 +15,14 @@ def main_menu():
     status = true
     while status:
         command = input(">")
-        print(command)
-        if command == "exit":
+        if command in ["exit"]:
             status = False
+        elif command in ["show movies"]:
+            print(show_movies())
+        elif command in ["show movies projections {} {}"]:
+            print(show_movies())
+        elif command in ["reserve"]:
+            print(show_movies())
 
 
 def main():

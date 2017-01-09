@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS PROJECTION (
 
 create_users_table = """
 CREATE TABLE IF NOT EXISTS USER (
-  ID INTEGER PRIMARY KEY AUTOINCREMENT,
+  ID INTEGER PRIMARY KEY NOT NULL AUTOINCREMENT,
   NAME TEXT NOT NULL,
   PASSWORD TEXT NOT NULL
 )
@@ -44,27 +44,37 @@ CREATE TABLE IF NOT EXISTS RESERVATION (
 
 
 # MOVIES
-get_movies_by_rate = '''SELECT *
+get_movies_by_rate = '''
+SELECT *
 FROM MOVIE
-ORDER BY(raiting)'''
+ORDER BY(RAITING)'''
 
-get_movie_projections_data = '''SELECT *
+get_movie_projections_data = '''
+SELECT *
 FROM MOVIE
-WHERE m_date == ?
-ORDER BY (m_date)'''
+WHERE MOVIE_ID = ? and M_DATE == ?
+ORDER BY (M_DATE)'''
 
 # USERS
-get_user = '''SELECT *
+get_user = '''
+SELECT *
 FROM USER
-WHERE name = ? and password = ?
+WHERE NAME = ?
 '''
 
-create_user = '''INSERT
+print_all_users = '''
+SELECT *
+FROM USER
+'''
+
+create_user = '''
+INSERT
 INTO USER
-VALUES (?, ?)
+VALUES (?, ?, ?)
 '''
 
-check_name = '''SELECT *
+check_name = '''
+SELECT *
 FROM USER
-WHERE name = ?
+WHERE NAME = ?
 '''

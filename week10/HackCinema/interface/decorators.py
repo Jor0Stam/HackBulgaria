@@ -5,8 +5,18 @@ from passlib.hash import pbkdf2_sha256
 
 def encrypt():
     def accepter(f):
-        hash = pbkdf2_sha256.encrypt(f(), rounds=200000, salt_size=16)
-        return hash
+        def encrypting(passwrd):
+            hash = pbkdf2_sha256.encrypt(passwrd, rounds=200000, salt_size=16)
+            return hash
+        return encrypting
+    return accepter
+
+
+def atomic():
+    def accepter(f):
+        pass
+        # for each execute(queries)
+        # db.commit
     return accepter
 
 
@@ -18,6 +28,7 @@ def test(password=None):
 def main():
     # a = pbkdf2_sha256.encrypt("a", rounds=200000, salt_size=16)
     # print(pbkdf2_sha256.verify("a", a))
+    # print(a == pbkdf2_sha256.encrypt("a", rounds=200000, salt_size=16))
     print(test("a"))
 
 

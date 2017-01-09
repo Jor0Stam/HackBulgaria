@@ -38,3 +38,8 @@ Try Again!
 HELP = '''Welcome to the HackCinema, where you Hack, Watch Movies(#SayNoToPiracy) and have a LOT of fun!
 ***
 For help & list of commands type <help>'''
+
+
+# WHERE_THE_MAGIC_HAPPENS
+
+USR_INFO = "{} - joined on //add log decorator!"

@@ -8,9 +8,17 @@ class Projection:
         self.time = time
         self.max_row = max_row
         self.max_col = max_col
-        self.taken_s = taken_s
+        self.taken_s = taken_s  # seat <=> (row, column)
 
     def take_seat(self, seat):
         if seat in self.taken_s:
             return False
         self.taken_s.append(seat)
+
+
+def main():
+    pass
+
+
+if __name__ == "__main__":
+    main()

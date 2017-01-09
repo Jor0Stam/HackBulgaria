@@ -1,7 +1,8 @@
 from queries.queries import *
 import sqlite3
 from settings import sql_create_settings as sett
-# from interface.decorators import *
+from interface.decorators import *
+from time import sleep
 
 
 def initiate_database():
@@ -11,14 +12,19 @@ def initiate_database():
 
 
 def check_user_exist(username, password):
-    hackCinema = initiate_database()
+    # hackCinema = initiate_database()
+    hackCinema = sqlite3.connect(sett.DB_NAME)
+    hackCinema.row_factory = sqlite3.Row
     c = hackCinema.cursor()
 
-    c.execute(get_user, (username, password,))
-    status = c.fetchall()
-    if status:
-        return True
-    return False
+    c.execute(get_user, (username,))
+    # status = c.fetchone()
+    print(c.execute(get_user, (username,)).fetchone())
+    sleep(5)
+    c.close()
+    # if status and pbkdf2_sha256.verify(password, status[0][0]):
+    #     return True
+    # return False
 
 
 def takken_name(username):
@@ -27,12 +33,13 @@ def takken_name(username):
 
     c.execute(check_name, (username,))
     status = c.fetchall()
+    c.close()
     if status:
         return True
     return False
 
 
-# @encrypt()
+@encrypt()
 def go_for_password(password):
     return password
 
@@ -42,13 +49,24 @@ def add_user(username, password):
         return False
     hackCinema = initiate_database()
     c = hackCinema.cursor()
+
+    c.execute(create_user, (0, username, go_for_password(password)))
+    hackCinema.commit()
+    hackCinema.close()
     return True
 
-    c.execute(create_usr, (username, go_for_password(password)))
+
+def show_movies():
+    hackCinema = initiate_database()
+    c = hackCinema.cursor()
+    result = c.execute(get_movies_by_rate)
+    c.close()
+    return result
 
 
 def main():
-    check_user_exist("a", "b")
+    a = go_for_password("a")
+    print(a == go_for_password("a"))
 
 
 if __name__ == "__main__":
