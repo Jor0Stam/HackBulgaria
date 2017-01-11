@@ -1,44 +1,49 @@
 import sqlite3
 from client import Client
+from queries import *
+from passlib.hash import pbkdf2_sha256
+
 
 conn = sqlite3.connect("bank.db")
 cursor = conn.cursor()
 
 
-def create_clients_table():
-    create_query = '''create table if not exists
-        clients(id INTEGER PRIMARY KEY AUTOINCREMENT,
-                username TEXT,
-                password TEXT,
-                balance REAL DEFAULT 0,
-                message TEXT)'''
+def encrypt():
+    def accepter(f):
+        def encrypting(passwrd):
+            hash = pbkdf2_sha256.encrypt(passwrd, rounds=200000, salt_size=16)
+            return hash
+        return encrypting
+    return accepter
 
+
+def create_clients_table():
     cursor.execute(create_query)
 
 
 def change_message(new_message, logged_user):
-    update_sql = "UPDATE clients SET message = '%s' WHERE id = '%s'" % (new_message, logged_user.get_id())
-    cursor.execute(update_sql)
+    cursor.execute(update_sql, (new_message, logged_user.get_id()))
     conn.commit()
     logged_user.set_message(new_message)
 
 
 def change_pass(new_pass, logged_user):
-    update_sql = "UPDATE clients SET password = '%s' WHERE id = '%s'" % (new_pass, logged_user.get_id())
-    cursor.execute(update_sql)
+    cursor.execute(update_sql, (new_pass, logged_user.get_id()))
     conn.commit()
 
 
+@encrypt()
+def go_for_password(password):
+    return password
+
+
 def register(username, password):
-    insert_sql = "insert into clients (username, password) values ('%s', '%s')" % (username, password)
-    cursor.execute(insert_sql)
+    cursor.execute(insert_sql, (username, go_for_password(password),))
     conn.commit()
 
 
 def login(username, password):
-    select_query = "SELECT id, username, balance, message FROM clients WHERE username = '%s' AND password = '%s' LIMIT 1" % (username, password)
-
-    cursor.execute(select_query)
+    cursor.execute(select_query, (username, pbkdf2_sha256.verify(password, status["PASSWORD"])))
     user = cursor.fetchone()
 
     if(user):

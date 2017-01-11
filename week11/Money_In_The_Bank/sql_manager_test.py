@@ -1,10 +1,10 @@
 import sys
 import unittest
 import os
+import sql_manager
+
 
 sys.path.append("..")
-
-import sql_manager
 
 
 class SqlManagerTests(unittest.TestCase):
@@ -23,10 +23,20 @@ class SqlManagerTests(unittest.TestCase):
     def test_register(self):
         sql_manager.register('Dinko', '123123')
 
-        sql_manager.cursor.execute('SELECT Count(*)  FROM clients WHERE username = (?) AND password = (?)', ('Dinko', '123123'))
-        users_count = sql_manager.cursor.fetchone()
+        sql_manager.cursor.execute('''SELECT Count(*)
+                                      FROM clients
+                                      WHERE username = (?)
+                                      AND password = (?)''', ('Dinko',
+                                                              '123123'))
+        self.assertFalse(sql_manager.cursor.fetchone())
+        sql_manager.register('Dinko', 'A#$123123')
 
-        self.assertEqual(users_count[0], 1)
+        sql_manager.cursor.execute('''SELECT Count(*)
+                                      FROM clients
+                                      WHERE username = (?)
+                                      AND password = (?)''', ('Dinko',
+                                                              'A#$123123'))
+        self.assertTrue(sql_manager.cursor.fetchone())
 
     def test_login(self):
         logged_user = sql_manager.login('Tester', '123')
@@ -49,6 +59,9 @@ class SqlManagerTests(unittest.TestCase):
 
         logged_user_new_password = sql_manager.login('Tester', new_password)
         self.assertEqual(logged_user_new_password.get_username(), 'Tester')
+
+    def test_sql_injections(self):
+        self.assertFalse(sql_manager.login('OR 1 = 1', ''))
 
 
 if __name__ == '__main__':

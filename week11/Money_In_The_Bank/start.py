@@ -1,8 +1,10 @@
 import sql_manager
+import re
 
 
 def main_menu():
-    print("Welcome to our bank service. You are not logged in. \nPlease register or login")
+    print('''Welcome to our bank service. You are not logged in.
+        Please register or login''')
 
     while True:
         command = input("$$$>")
@@ -35,6 +37,28 @@ def main_menu():
             break
         else:
             print("Not a valid command")
+
+
+def incorrect_password(password):
+    return not(search(r"\d", password) and search(r"[A-Z]", password) and
+               search(r"[!, @, #, $, %, ^, &, *,]", password) and len(password) > 7)
+
+
+def register(mssg=None):
+    clear(mssg)
+    username = input(USR_INP)
+    password = "Not Repeat Password"
+    repeat_password = "Not Password!"
+    while password != repeat_password or incorrect_password(password):
+        password = getpass(PASS_INP)
+        repeat_password = getpass(REPEAT_PASS)
+        if password != repeat_password:
+            register(PASS_ERR)
+        if incorrect_password(password):
+            register(PASS_INCORECT)
+    if not add_user(username, password):
+        register(USER_EXIST)
+    initiate_HackCinema(USER_CREATED)
 
 
 def logged_menu(logged_user):

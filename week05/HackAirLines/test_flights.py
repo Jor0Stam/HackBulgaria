@@ -39,7 +39,7 @@ class TestReservation(unittest.TestCase):
 
     def test_eq(self):
         self.assertEqual(self.reserv1, Reservation(Flight(),
-                         Passenger(), True))
+                                                   Passenger(), True))
 
 
 class TestAirport(unittest.TestCase):
