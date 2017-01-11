@@ -17,6 +17,50 @@ def cast_text_to_green():
     print(Fore.GREEN)
 
 
+def are_you_god():
+    clear(ARE_YOU_GOD)
+    usr = input("User: ")
+    password = getpass("GodPass: ")
+    status = False
+    if usr == "j" and password == "j1":
+        status = True
+    while status:
+        print(1)
+        clear(ADD_MOVIE_MENU)
+        command = input(">")
+        if command in ["return"]:
+            initiate_HackCinema()
+        elif command in ["exit"]:
+            raise SystemExit(0)
+        elif command in ["add", "new"]:
+            name = input("Movie title: ")
+            rate = input("Movie rating: ")
+            add_movie_to_db(name, rate)
+
+
+def are_you_god2():
+    clear(ARE_YOU_GOD)
+    usr = input("User: ")
+    password = getpass("GodPass: ")
+    status = False
+    if usr == "j" and password == "j1":
+        status = True
+    while status:
+        print(1)
+        clear(ADD_PROJECTION_MENU)
+        command = input(">")
+        if command in ["return"]:
+            initiate_HackCinema()
+        elif command in ["exit"]:
+            raise SystemExit(0)
+        elif command in ["add", "new"]:
+            movie_id = input("Movie ID: ")
+            p_type = input("Type: ")
+            p_date = input("Date: ")
+            p_time = input("Time: ")
+            add_projection_to_db(movie_id, p_type, p_date, p_time)
+
+
 def initiate_HackCinema(mssg=False):
     cast_text_to_green()
     status = True
@@ -26,14 +70,18 @@ def initiate_HackCinema(mssg=False):
         clear(WELCOME_SCREEN)
     while status:
         command = input(">")
-        if command == "log in":
+        if command in ["log in"]:
             if log_to_sys():
-                print("ENTERED")
                 status = False
-        elif command == "register":
+        elif command in ["register"]:
             register()
-        elif command == "exit":
+        elif command in ["add", "add movie"]:
+            are_you_god()
+        elif command in ["add proj"]:
+            are_you_god2()
+        elif command in ["exit"]:
             raise SystemExit(0)
+    main_menu()
 
 
 def log_to_sys():

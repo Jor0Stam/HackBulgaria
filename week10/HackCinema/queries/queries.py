@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS PROJECTION (
 
 create_users_table = """
 CREATE TABLE IF NOT EXISTS USER (
-  ID INTEGER PRIMARY KEY NOT NULL AUTOINCREMENT,
+  ID INTEGER PRIMARY KEY AUTOINCREMENT,
   NAME TEXT NOT NULL,
   PASSWORD TEXT NOT NULL
 )
@@ -69,8 +69,8 @@ FROM USER
 
 create_user = '''
 INSERT
-INTO USER
-VALUES (?, ?, ?)
+INTO USER(NAME, PASSWORD)
+VALUES (?, ?)
 '''
 
 check_name = '''
@@ -78,3 +78,23 @@ SELECT *
 FROM USER
 WHERE NAME = ?
 '''
+
+add_movie = '''
+INSERT
+INTO MOVIE(NAME, RAITING)
+VALUES (?, ?)'''
+
+add_projection = '''
+INSERT
+INTO PROJECTION(MOVIE_ID, TYPE, M_DATE, M_TIME)
+VALUES (?, ?, ?, ?)'''
+
+show_projections_d = '''
+SELECT *
+FROM PROJECTION
+WHERE ID = ? AND M_DATE = ?'''
+
+show_projections = '''
+SELECT *
+FROM PROJECTION
+WHERE ID = ?'''
