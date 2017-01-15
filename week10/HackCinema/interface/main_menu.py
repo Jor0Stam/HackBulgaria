@@ -37,13 +37,42 @@ def show_m_projections():
 
 
 def seats_takken(m_id, seats):
-    if len(movies[m_id].get_seats()) >= len(seats):
+    global projectionss
+    print(type(projections))
+    if len(projections[m_id].get_seats()) >= len(seats):
         return False
     return True
 
 
+def show_seats():
+    print("   SCREEN  ")
+    for row in range(11):
+        for col in range(11):
+            if col == 0:
+                print(row)
+            elif row == 10:
+                print(col)
+            elif (row, col) in projections[m_id].taken_seats:
+                print("X")
+            else:
+                print("0")
+
+
+def seats_out(r, c):
+    return r in range(1, 11) and c in range(1, 11)
+
+
 def take_seats(m_id, seats):
-    pass
+    while len(seats):
+        show_seats()
+        r = input("Choose row!")
+        c = input("Choose col!")
+        if seats_out(r, c):
+            clear("LoLLLL... NO!!!")
+            continue
+        if projections[m_id].take_seats((r, c)):
+            seats -= 1
+    projections[m_id].take_seats(seats)
 
 
 def reserve():
@@ -74,7 +103,6 @@ def main_menu():
         elif command in ["show projections"]:
             show_m_projections()
         elif command in ["reserve"]:
-            clear("COMING SOON !!!")
             show_movies()
             reserve()
 

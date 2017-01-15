@@ -6,6 +6,9 @@ from passlib.hash import pbkdf2_sha256
 from where_the_magic_happens.projection import *
 
 
+projections = {}
+
+
 def initiate_db():
     hackCinema = sqlite3.connect(sett.DB_NAME)
     hackCinema.row_factory = sqlite3.Row
@@ -55,15 +58,16 @@ def add_movie_to_db(name, rate):
     hackCinema.commit()
 
 
-def add_projection_to_db(movie_id, m_type, m_date, m_time):
+def add_projection_to_db(m_id, m_type, m_date, m_time):
     hackCinema = initiate_db()
     c = hackCinema.cursor()
     c.execute(add_projection, (m_id, m_type, m_date, m_time,))
     hackCinema.commit()
-    if movie_id in projections.keys():
-        projections[movie_id].extend(Projection(m_id, m_type, m_date, m_time))
+    global projections
+    if m_id in projections.keys():
+        projections[m_id].extend(Projection(m_id, m_type, m_date, m_time))
     else:
-        projections[movie_id] = [Projection(m_id, m_type, m_date, m_time)]
+        projections[m_id] = [Projection(m_id, m_type, m_date, m_time)]
 
 
 def show_movie_projections(m_id, m_date):

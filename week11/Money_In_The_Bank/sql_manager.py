@@ -11,14 +11,15 @@ cursor = conn.cursor()
 def encrypt():
     def accepter(f):
         def encrypting(passwrd):
-            hash = pbkdf2_sha256.encrypt(passwrd, rounds=200000, salt_size=16)
-            return hash
+            hashd = pbkdf2_sha256.encrypt(passwrd, rounds=200000, salt_size=16)
+            return hashd
         return encrypting
     return accepter
 
 
-def create_clients_table():
-    cursor.execute(create_query)
+def create_tables():
+    cursor.execute(create_log_table)
+    cursor.execute(create_clients_table)
 
 
 def change_message(new_message, logged_user):
@@ -43,10 +44,10 @@ def register(username, password):
 
 
 def login(username, password):
-    cursor.execute(select_query, (username, pbkdf2_sha256.verify(password, status["PASSWORD"])))
+    cursor.execute(select_query, (username,))
     user = cursor.fetchone()
 
-    if(user):
+    if user and pbkdf2_sha256.verify(password, user[4]):
         return Client(user[0], user[1], user[2], user[3])
     else:
         return False
