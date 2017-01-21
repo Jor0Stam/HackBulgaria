@@ -53,6 +53,8 @@ class World:
                 else:
                     result += " " + "*" + " "  # + emojize(":white_large_square:") + " "
             result += "\n"
+        result += "PitonQ size: " + str(self.pitonq_head[1].size + 1) + "\n"
+        result += "Use arrow keys to navigate"
         return result
 
     def start_game(self, pitonq):
@@ -93,7 +95,9 @@ class World:
             self.pitonq_head[1].directions[direction][1])
 
     def move(self, direction):
-        if self.wrong_direction(direction):
+        if self.oposite_direction(direction):
+            raise GoingBackwards()
+        elif self.wrong_direction(direction):
             raise PythonDeath("Lol you went out of the table!")
         elif self.directly_wall(direction):
             raise PythonDeath("You've kissed a wall!")
@@ -110,6 +114,7 @@ class World:
         self.pitonq_body.append(self.pitonq_head[0])
         self.pitonq_body.extend(old)
         self.pitonq_head[0] = self.new_pos(direction)
+        self.pitonq_head[1].move_direction = direction
         print(self.pitonq_body)
 
     def wrong_direction(self, direction):
@@ -123,6 +128,9 @@ class World:
 
     def directly_wall(self, direction):
         return self.new_pos(direction) in self.special_cells["wall"]
+
+    def oposite_direction(self, direction):
+        return direction == self.pitonq_head[1].get_opposite_direction(self.pitonq_head[1].move_direction)
 
     def self_eat(self, direction):
         return self.new_pos(direction) in self.pitonq_body
@@ -157,6 +165,12 @@ class PythonDeath(Exception):
 class PitonqDontFit(Exception):
 
     def __init__(self, mssg="Your Piton is too big for this grid!"):
+        super().__init__(mssg)
+
+
+class GoingBackwards(Exception):
+
+    def __init__(self, mssg="You can't go 180 degrees!"):
         super().__init__(mssg)
 
 

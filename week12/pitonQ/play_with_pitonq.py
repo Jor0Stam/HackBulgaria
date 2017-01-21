@@ -35,7 +35,7 @@ class MyApp:
         self.text.insert(END, self.world)
         self.world.move(self.world.pitonq_head[1].move_direction)
 
-        self.myParent.after(1000, self.start_moving())
+        # self.myParent.after(1000, self.start_moving())
 
 
 def main():
