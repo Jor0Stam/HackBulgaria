@@ -23,9 +23,9 @@ def main_menu():
             print("Registration Successfull")
 
         elif command == 'login':
+            user_login()
             if count_user_trying(username) > 5:
                 add_user_to_bann_list(username)
-            user_login()
 
         elif command == 'help':
             print("login - for logging in!")
@@ -46,26 +46,36 @@ def count_user_trying(username):
     pass
 
 
-# def log():
-#     def to_log(func):
-#         def log_it():
-#             with open("logs.py", "a") as f:
-#                 f.write(LOG.format(func=func.__name__,
-#                                    d_t=datetime.datetime.now()))
-#         return log_it
-#     return to_log
+def log():
+    def to_log(func):
+        def log_it(*args, **kwargs):
+            with open("logs.py", "a") as f:
+                f.write(LOG.format(func=func.__name__,
+                                   d_t=datetime.datetime.now()))
+        return log_it
+    return to_log
 
 
-# @log()
+def log_failed_attempt(username):
+    with open("logs.json", "a") as f:
+                f.write(LOG_FAIL.format(user=username,
+                                        d_t=datetime.datetime.now()))
+
+
+@log()
 def user_login():
     username = input("Enter your username: ")
     password = getpass("Enter your password: ")
+    if count_user_trying(username) > 5:
+        print(BLOCKED_30SEC)
 
     logged_user = sql_manager.login(username, password)
+    log
 
     if logged_user:
         logged_menu(logged_user)
     else:
+        log_failed_attempt(username)
         print("Login failed")
 
 
