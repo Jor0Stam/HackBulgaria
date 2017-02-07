@@ -1,7 +1,6 @@
 # from django.http import HttpResponse
 from django.shortcuts import render
-from do_math import get_factoriel, get_fibonaci
-from do_math import get_n_primes
+from CD_graduate_helper.do_math import *
 
 
 def index(request):
@@ -19,9 +18,9 @@ def factoriel(request):
 
 def fibonaci(request):
     if not request.POST.get('fibonaci_input', None):
-        fiboanci = ""
+        fibo = ""
     else:
-        fiboanci = get_fibonaci(int(request.POST.get('fibonaci_input', None)))
+        fibo = get_fibonaci(int(request.POST.get('fibonaci_input', None)))
     return render(request, "index.html", locals())
 
 
@@ -31,3 +30,19 @@ def nth_prime(request):
     else:
         nPrimes = get_n_primes(int(request.POST.get('prime_input', None)))
     return render(request, "index.html", locals())
+
+
+def encode(request):
+    if not request.POST.get('normal_input', None):
+        encoded = ""
+    else:
+        encoded = encode_rle(request.POST.get('normal_input', None))
+    return render(request, 'index.html', locals())
+
+
+def decode(request):
+    if not request.POST.get('encoded_input', None):
+        decoded = ""
+    else:
+        decoded = decode_rle(request.POST.get('encoded_input', None))
+    return render(request, 'index.html', locals())

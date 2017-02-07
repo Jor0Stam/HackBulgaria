@@ -55,7 +55,7 @@
             <label>Enter n:</label>
             <input type="number" name="fibonaci_input" />
             <input type="submit" value="Go!" />
-            <p>Result is: {{fibonaci}} </p>
+            <p>Result is: {{fibo}} </p>
           </form>
         </div>
       </div>
@@ -78,24 +78,39 @@
 
       <div class="col-4" id="rle_container">
         <div class="form-container">
-          <form action="">
+          <form method="POST" action="{% url 'encode' %}">
+            {% csrf_token %}
             <p>Encode <a href="https://en.wikipedia.org/wiki/Run-length_encoding">RLE.</a></p>
             <label>Enter string:</label>
-            <input type="text" />
+            <input type="text" name='normal_input' />
             <input type="submit" value="Go!" />
-            <p>RLE is:</p>
+            <p>RLE is: {{ encoded }} </p>
           </form>
         </div>
       </div>
       
       <div class="col-4" id="some_container">
         <div class="form-container">
-          <form action="">
+          <form method="POST" action="{% url 'decode' %}">
+            {% csrf_token %}
             <p>Decode <a href="https://en.wikipedia.org/wiki/Run-length_encoding">RLE.</a></p>
             <label>Enter RLE string:</label>
-            <input type="text" />
+            <input type="text" name="encoded_input" />
             <input type="submit" value="Go!" />
-            <p>Decoded string is:</p>
+            <p>Decoded string is: {{decoded}} </p>
+          </form>
+        </div>
+      </div>
+
+      <div class="col-4" id="my_container">
+        <div class="form-container">
+          <form method="POST" action="{% url 'decode' %}">
+            {% csrf_token %}
+            <p> Some text ! </p>
+            <label>Enter some response:</label>
+            <input type="text" />
+            <input type="submit" value="Yerr!" />
+            <p>  {%  %} </p>
           </form>
         </div>
       </div>

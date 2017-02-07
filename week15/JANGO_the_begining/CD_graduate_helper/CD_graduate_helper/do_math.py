@@ -39,8 +39,29 @@ def get_n_primes(n):
     return primes
 
 
+def encode_rle(text):
+    result = ""
+    curr_symb = text[0]
+    count = 0
+    for letter in text:
+        if curr_symb != letter:
+            result += str(count) + curr_symb
+            curr_symb = letter
+            count = 0
+        count += 1
+    result += str(count) + curr_symb
+    return result
+
+
+def decode_rle(text):
+    result = ""
+    for i in range(0, len(text), 2):
+        result += int(text[i]) * text[i + 1]
+    return result
+
+
 def main():
-    pass
+    print(encode_rle("weerrr"))
 
 
 if __name__ == "__main__":

@@ -23,5 +23,7 @@ urlpatterns = [
     url(r'^index/factoriel/$', views.factoriel, name="factoriel"),
     url(r'^index/fibonaci/$', views.fibonaci, name="fibonaci"),
     url(r'^index/nthPrime/$', views.nth_prime, name="Nprime"),
+    url(r'^index/encodeRLE/$', views.encode, name='encode'),
+    url(r'^index/decodeRLE/$', views.decode, name='decode'),
     url(r'$', views.index)
 ]

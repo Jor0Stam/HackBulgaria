@@ -5,7 +5,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import create_engine
 
 from settings import DB_NAME
-from model import Team, Skills, Mentor, TeamSkills, MentorTeams
+from model import Team, Skills, Mentor, MentorTeams
 
 
 Base = declarative_base()
