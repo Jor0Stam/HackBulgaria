@@ -3,9 +3,18 @@ from settings import db_name
 from base import FieldsMeta
 
 
-def create_table(tablename, cur):
+def format_fields(fields):
+    res = ""
+    for key, value in fields.items():
+        res += " " + key + " " + value.get_base_type()
+    print("THIS ->", res)
+    return res  #" data INTEGER "
+
+
+def create_table(tablename, fields, cur):
     print(tablename)
-    cur.execute("CREATE TABLE test(testcolumn text)")
+    cur.execute("CREATE TABLE IF NOT EXISTS " +
+                tablename + "(" + format_fields(fields) + " )")
 
 
 class BaseModel(metaclass=FieldsMeta):
@@ -16,7 +25,7 @@ class BaseModel(metaclass=FieldsMeta):
         conn = sqlite3.connect(db_name)
         cur = conn.cursor()
         for table in cls._registry:
-            create_table(table.__tablename__, cur)
+            create_table(table.__tablename__, table._fields, cur)
         # cur.commit()
         # cur.flush()
 

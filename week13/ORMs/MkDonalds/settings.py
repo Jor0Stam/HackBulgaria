@@ -1,1 +1,1 @@
-db_name = "random_name"
+db_name = "random_name.db"

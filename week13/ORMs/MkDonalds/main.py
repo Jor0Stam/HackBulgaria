@@ -16,10 +16,6 @@ class Student(User):
     shirt_size = IntegerColumn()
 
 
-# Creating all tables from BaseModel class
-BaseModel.create_all_tables()
-
-
 # Create record in table
 # User.create_obj(name="Rosi", age=22)
 
@@ -27,7 +23,13 @@ BaseModel.create_all_tables()
 # User.filter(name = "Panda")
 
 def main():
-    print(Student._fields)
+    # Creating all tables from BaseModel class
+    BaseModel.create_all_tables()
+
+    st = User
+
+    for key, value in st._fields.items():
+        print(key, value.get_base_type())
 
 
 if __name__ == "__main__":
