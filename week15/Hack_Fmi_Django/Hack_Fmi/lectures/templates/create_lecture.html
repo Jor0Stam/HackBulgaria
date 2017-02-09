@@ -1,0 +1,25 @@
+<form method='POST' action="">
+		{% csrf_token %}
+	
+	<div>
+	    <label>Lecture name:</label>
+	    <input type="string" name="lecture_name"/>
+	</div>
+
+	<div>
+	    <label>Week:</label>
+	    <input type="number" name="lecture_week"/>
+	</div>
+
+	<div>
+	    <label>Course:</label>
+	    <input type="number" name="course_id"/>
+	</div>
+
+	<div>
+	    <label>Course url:</label>
+	    <input type="url" name="course_url"/>
+	</div>
+
+	    <input type="submit" value="Go!" />
+</form>

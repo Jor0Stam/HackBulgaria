@@ -10,7 +10,7 @@ class PKColumn(Column):
     data_type = int
 
     def __init__(self, number=1):
-        self.base_type = "INTEGER"
+        self.base_type = "PRIMARY KEY"
 
     def get_base_type(self):
         return self.base_type

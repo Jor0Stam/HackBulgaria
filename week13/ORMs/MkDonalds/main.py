@@ -16,20 +16,16 @@ class Student(User):
     shirt_size = IntegerColumn()
 
 
-# Create record in table
-# User.create_obj(name="Rosi", age=22)
-
-# Return dict with object
-# User.filter(name = "Panda")
-
 def main():
+    # pass
     # Creating all tables from BaseModel class
-    BaseModel.create_all_tables()
+    # BaseModel.create_all_tables()
 
-    st = User
+    # Create record in table
+    # User.create_obj(name="Rosi", age=22)
 
-    for key, value in st._fields.items():
-        print(key, value.get_base_type())
+    # Return dict with object
+    print(User.filter(name='Rosi'))
 
 
 if __name__ == "__main__":
