@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from .models import Lecture
-from courses.models import Course
+from Hack_Fmi.courses.models import Course
 
 # Create your views here.
 

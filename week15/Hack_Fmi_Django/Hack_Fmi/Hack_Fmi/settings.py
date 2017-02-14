@@ -38,8 +38,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'Hack_Fmi',
-    'courses',
-    'lectures'
+    'Hack_Fmi.lectures',
+    'Hack_Fmi.courses',
+    'Hack_Fmi.user'
 ]
 
 MIDDLEWARE = [

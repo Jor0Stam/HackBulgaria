@@ -1,5 +1,5 @@
 from django.db import models
-from courses.models import Course
+from Hack_Fmi.courses.models import Course
 
 # Create your models here.
 

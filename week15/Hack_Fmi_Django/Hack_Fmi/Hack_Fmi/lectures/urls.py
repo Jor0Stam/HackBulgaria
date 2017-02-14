@@ -1,5 +1,5 @@
 from django.conf.urls import url
-from lectures import views
+from Hack_Fmi.lectures import views
 
 
 urlpatterns = [

@@ -1,17 +1,19 @@
 <table border="2pt">
   <tr>
-    <th>Course name</th>
-    <th>Description</th>
-    <th>Start date</th>
-    <th>End date</th>
+    <th> Course name </th>
+    <th> Description </th>
+    <th> Start date </th>
+    <th> End date </th>
+    <th> Duration </th>
   </tr>
 
 {% for course in all_courses %}
   <tr>
-    <th>  {{course.name}} </th>
-    <th> {{course.description}} </th>
-    <th>  {{course.start_date}} </th>
-    <th>  {{course.end_date}} </th>
+    <th>  {{ course.name }} </th>
+    <th> {{ course.description }} </th>
+    <th>  {{ course.start_date }} </th>
+    <th>  {{ course.end_date }} </th>
+    <th> {{  course.start_date|timesince:course.end_date }} </th>
   </tr>
 {% endfor %}
 

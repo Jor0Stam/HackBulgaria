@@ -1,7 +1,12 @@
 from django.shortcuts import render
-from .models import Course
+from Hack_Fmi.courses.models import Course
 
 # Create your views here.
+
+
+def courses_table(request):
+    all_courses = Course.objects.all()
+    return render(request, 'index.html', locals())
 
 
 def create_course(request):
