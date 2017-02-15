@@ -1,12 +1,14 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse
-from Hack_Fmi.user.models import User
+from .models import User
 from passlib.hash import pbkdf2_sha256
 from django.http import HttpResponse
+from Hack_Fmi.decorators import login_required, annon_required
 
 # Create your views here.
 
 
+@annon_required(redirect_url='profile')
 def register(request):
     if request.method == 'POST':
         email = request.POST['email']
@@ -23,7 +25,8 @@ def register(request):
     return render(request, 'register.html', locals())
 
 
-def login(request):
+@annon_required(redirect_url='profile')
+def login(request='Test'):
     request.session['email'] = None
     session_email = request.session.get('email', False)
     # import ipdb; ipdb.set_trace()
@@ -45,6 +48,8 @@ def login(request):
     return render(request, 'login.html', locals())
 
 
+@login_required(redirect_url='login')
 def profile(request):
     email = request.session['email']
+    return HttpResponse('Styff')
     return render(request, 'profile.html', locals())
