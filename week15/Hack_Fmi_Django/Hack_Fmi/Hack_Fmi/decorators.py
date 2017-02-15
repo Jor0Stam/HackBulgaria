@@ -18,6 +18,7 @@ def annon_required(**dkwargs):  # redirect_url='profile'
             # import ipdb; ipdb.set_trace()
             if request.session['email']:
                 return redirect(reverse(dkwargs['redirect_url']))
+            return f(request, *args, **kwargs)
         return accepter
     return wrapper
 
@@ -29,6 +30,7 @@ def login_required(**dkwargs):  # redirect_url='login'
             # import ipdb; ipdb.set_trace()
             if not request.session['email']:
                 return redirect(reverse(dkwargs['redirect_url']))
+            return f(request, *args, **kwargs)
         return accepter
     return wrapper
 

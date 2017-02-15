@@ -18,7 +18,7 @@ def register(request):
             password = pbkdf2_sha256.hash(password)
             user = User(email=email, password=password)
             user.save()
-            return redirect(reverse('index'))
+            return redirect(reverse('login'))
         else:
             return HttpResponse('Сорри Мотори Този Юзър съществува!')
 
@@ -43,6 +43,7 @@ def login(request='Test'):
             err_mssg = 'Сорри Мотори - Wrong user/pass'
         else:
             request.session['email'] = email
+            request.session['user'] = u
             response = redirect(reverse('profile'))
 
     return render(request, 'login.html', locals())
@@ -51,5 +52,9 @@ def login(request='Test'):
 @login_required(redirect_url='login')
 def profile(request):
     email = request.session['email']
-    return HttpResponse('Styff')
     return render(request, 'profile.html', locals())
+
+def logout(request):
+    request.session['email'] = None
+    request.session['user'] = None
+    return render(request, 'index.html', locals())
