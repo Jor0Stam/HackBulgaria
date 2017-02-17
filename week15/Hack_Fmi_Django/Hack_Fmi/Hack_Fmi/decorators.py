@@ -16,9 +16,10 @@ def annon_required(**dkwargs):  # redirect_url='profile'
         @wraps(f)
         def accepter(request, *args, **kwargs):
             # import ipdb; ipdb.set_trace()
-            if request.session['email']:
-                return redirect(reverse(dkwargs['redirect_url']))
-            return f(request, *args, **kwargs)
+                session_email = request.session.get('email', False)
+                if session_email:
+                    return redirect(reverse(dkwargs['redirect_url']))
+                return f(request, *args, **kwargs)
         return accepter
     return wrapper
 
@@ -28,9 +29,10 @@ def login_required(**dkwargs):  # redirect_url='login'
         @wraps(f)
         def accepter(request, *args, **kwargs):
             # import ipdb; ipdb.set_trace()
-            if not request.session['email']:
-                return redirect(reverse(dkwargs['redirect_url']))
-            return f(request, *args, **kwargs)
+            session_email = request.session.get('email', False)
+            if session_email:
+                return f(request, *args, **kwargs)
+            return redirect(reverse(dkwargs['redirect_url']))
         return accepter
     return wrapper
 

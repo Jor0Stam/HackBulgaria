@@ -1,12 +1,6 @@
-<form method = 'POST' action="{% url 'login' %}">
-  {% csrf_token %}
-  <p> Email: </p>
-  <input type="email" name="email">
-  <p> Password: </p>
-  <input type="Password" name="password">
-  <br>
-  <input type="submit" value="Submit">
-</form> 
-
+{% for field in form %}
+	{{ fields.email }}
+	{{ fields.password }}
+{% endfor%}
 
 <p> {{ err_mssg }} </p>

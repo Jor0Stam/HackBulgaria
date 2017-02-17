@@ -18,21 +18,21 @@ class User(models.Model):
     @classmethod
     def exists(cls, email):
         try:
-            User.objects.get(email=email)
+            User.objects.filter(email=email)
             return True
         except User.DoesNotExist:
             return False
 
-    @encrypt_pass
+    # @encrypt_pass
     @classmethod
-    def user_login(email, try_password):
+    def user_login(cls, email=None, password=None):
         try:
-            usr = User.objects.get(email=email)
-            if pbkdf2_sha256.verify(try_password, usr.password):
-                return True
-        except User.DoesNotExist:
-            return HttpResponse('Сорри Мотори Този Юзър съществува!')
-        finally:
+            # import ipdb; ipdb.set_trace()
+            usr = cls.objects.get(email=email)
+            if pbkdf2_sha256.verify(password, usr.password):
+                return usr
+            return False
+        except cls.DoesNotExist:
             return False
 
 

@@ -4,6 +4,8 @@ from .models import User
 from passlib.hash import pbkdf2_sha256
 from django.http import HttpResponse
 from Hack_Fmi.decorators import login_required, annon_required
+from Hack_Fmi.courses.views import courses_table
+# from Hack_Fmi.user.forms import LoginForm
 
 # Create your views here.
 
@@ -14,37 +16,38 @@ def register(request):
         email = request.POST['email']
         password = request.POST['password']
 
-        if not User.exists(email):
+        if User.exists(email):
+            return HttpResponse('Сорри Мотори Този Юзър съществува!')
+        else:
             password = pbkdf2_sha256.hash(password)
             user = User(email=email, password=password)
             user.save()
             return redirect(reverse('login'))
-        else:
-            return HttpResponse('Сорри Мотори Този Юзър съществува!')
 
     return render(request, 'register.html', locals())
 
 
-@annon_required(redirect_url='profile')
+# @annon_required(redirect_url='profile')
 def login(request='Test'):
-    request.session['email'] = None
     session_email = request.session.get('email', False)
-    # import ipdb; ipdb.set_trace()
     if session_email:
         return redirect(reverse('profile'))
+    # my_form = LoginForm
     if request.method == 'POST':
         email = request.POST['email']
         password = request.POST['password']
 
-        u = User.user_login(email=email, password=password)
+        usr = User.user_login(email=email, password=password)
 
-        if not u:
+        # import ipdb; ipdb.set_trace()
+        if not usr:
             # return HttpResponse('Сорри Мотори - Wrong user/pass')
             err_mssg = 'Сорри Мотори - Wrong user/pass'
         else:
             request.session['email'] = email
-            request.session['user'] = u
-            response = redirect(reverse('profile'))
+            # request.session['user'] = usr
+            return redirect(reverse('profile'))
+
 
     return render(request, 'login.html', locals())
 
@@ -54,7 +57,8 @@ def profile(request):
     email = request.session['email']
     return render(request, 'profile.html', locals())
 
+
 def logout(request):
-    request.session['email'] = None
-    request.session['user'] = None
-    return render(request, 'index.html', locals())
+    # import ipdb; ipdb.set_trace()
+    request.session.flush()
+    return courses_table(request)
