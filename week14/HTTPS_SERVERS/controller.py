@@ -5,7 +5,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import create_engine
 
 from settings import DB_NAME
-from model import Team, Skills, Mentor, MentorTeams
+from model import Team, Skills, Mentor
 
 
 Base = declarative_base()
@@ -30,12 +30,15 @@ def populate_base():
                            description=mentor["description"],
                            picture=mentor["picture"],))
     for team in get_teams():
+        # import ipdb; ipdb.set_trace()
         session.add(Team(name=team["name"],
                          idea_description=team["idea_description"],
                          repository=team["repository"],
-                         technologies_full=team["technologies_full"],
+                         technologies_full=[(teamm['id'],)
+                                            for teamm in
+                                            team["technologies_full"]],
                          members_needed_desc=team["members_needed_desc"],
-                         room=team["room"],
+                         room=str(team["room"]),
                          need_more_members=str(team["need_more_members"]),
                          place=0))
     session.commit()

@@ -8,34 +8,31 @@ from settings import DB_NAME
 Base = declarative_base()
 
 
-class AssociationTable(Base):
+# class AssociationTable(Base):
 
-    __tablename__ = "association"
-    id = Column(Integer, primary_key=True)
-    team_id = Column(Integer, ForeignKey('team.id'))
-    skill_id = Column(Integer, ForeignKey('skill.id'))
+#     __tablename__ = "association"
+#     id = Column(Integer, primary_key=True)
+#     team_id = Column(Integer, ForeignKey('team.id'))
+#     skill_id = Column(Integer, ForeignKey('skill.id'))
 
+
+# child_id = Column(Integer, ForeignKey('child.id'))
+# child = relationship("Child", backref="parents")
 
 class Team(Base):
 
     __tablename__ = "team"
     id = Column(Integer, primary_key=True)
     name = Column(String(250), nullable=False)
-    idea_description = Column(String(250))
-    technologies_full = relationship("Skills",
-                                     secondary="association",
-                                     back_populates='team')
+    idea_description = Column(String(250), nullable=False)
+    technologies_full = Column(Integer, ForeignKey('skill.id'))
+    skill = relationship("Skills",
+                         backref='team')
     repository = Column(String(250))
     members_needed_desc = Column(String(250))
     room = Column(String(250), nullable=False)
     need_more_members = Column(Boolean)
     place = Column(Integer)
-
-    def __str__(self):
-        return "{t}".format(t=self.name)
-
-    def __repr__(self):
-        return "{t}".format(t=self.name)
 
 
 class Skills(Base):
@@ -43,9 +40,6 @@ class Skills(Base):
     __tablename__ = "skill"
     id = Column(Integer, primary_key=True)
     name = Column(String(250), nullable=False)
-    team = relationship("team",
-                        secondary='association',
-                        back_populates='skill')
 
 
 class Mentor(Base):
@@ -55,14 +49,16 @@ class Mentor(Base):
     description = Column(String(250), nullable=False)
     picture = Column(String(250))
     team_id = Column(Integer, ForeignKey('team.id'))
+    team = relationship('Team',
+                           backref='mentor')
 
 
-class MentorTeams(Base):
+# class MentorTeams(Base):
 
-    __tablename__ = "mentorteams"
-    id = Column(Integer, primary_key=True)
-    team = Column(Integer, ForeignKey("mentor.id"))
-    mentor = Column(Integer, ForeignKey("team.id"))
+#     __tablename__ = "mentorteams"
+#     id = Column(Integer, primary_key=True)
+#     team = Column(Integer, ForeignKey("mentor.id"))
+#     mentor = Column(Integer, ForeignKey("team.id"))
 
 
 def main():

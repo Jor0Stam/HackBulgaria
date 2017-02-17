@@ -1,6 +1,8 @@
-{% for field in form %}
-	{{ fields.email }}
-	{{ fields.password }}
-{% endfor%}
+<form action="login/" method="POST">
+	{% for field in form %}
+		{{ fields.email }}
+		{{ fields.password }}
+	{% endfor%}
+</form>
 
 <p> {{ err_mssg }} </p>

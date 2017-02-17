@@ -5,7 +5,7 @@ from passlib.hash import pbkdf2_sha256
 from django.http import HttpResponse
 from Hack_Fmi.decorators import login_required, annon_required
 from Hack_Fmi.courses.views import courses_table
-# from Hack_Fmi.user.forms import LoginForm
+from Hack_Fmi.user.forms import LoginForm
 
 # Create your views here.
 
@@ -27,28 +27,27 @@ def register(request):
     return render(request, 'register.html', locals())
 
 
-# @annon_required(redirect_url='profile')
+@annon_required(redirect_url='profile')
 def login(request='Test'):
     session_email = request.session.get('email', False)
     if session_email:
         return redirect(reverse('profile'))
-    # my_form = LoginForm
     if request.method == 'POST':
-        email = request.POST['email']
-        password = request.POST['password']
+        my_form = LoginForm(request.POST)
 
-        usr = User.user_login(email=email, password=password)
+        if my_form.is_valid():
+            email = my_form.cleaned_data['email']
+            password = my_form.cleaned_data['password']
+
+            usr = User.user_login(email=email, password=password)
 
         # import ipdb; ipdb.set_trace()
-        if not usr:
-            # return HttpResponse('Сорри Мотори - Wrong user/pass')
-            err_mssg = 'Сорри Мотори - Wrong user/pass'
-        else:
-            request.session['email'] = email
-            # request.session['user'] = usr
-            return redirect(reverse('profile'))
-
-
+            if not usr:
+                err_mssg = 'Сорри Мотори - Wrong user/pass'
+            else:
+                request.session['email'] = email
+                return redirect(reverse('profile'))
+    my_form = LoginForm()
     return render(request, 'login.html', locals())
 
 
