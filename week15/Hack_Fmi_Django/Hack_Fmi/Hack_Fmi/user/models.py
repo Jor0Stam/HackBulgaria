@@ -18,8 +18,8 @@ class User(models.Model):
     @classmethod
     def exists(cls, email):
         try:
-            User.objects.filter(email=email)
-            return True
+            usr = User.objects.filter(email=email)
+            return usr
         except User.DoesNotExist:
             return False
 

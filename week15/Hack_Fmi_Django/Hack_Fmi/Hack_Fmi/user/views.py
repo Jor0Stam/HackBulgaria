@@ -5,7 +5,7 @@ from passlib.hash import pbkdf2_sha256
 from django.http import HttpResponse
 from Hack_Fmi.decorators import login_required, annon_required
 from Hack_Fmi.courses.views import courses_table
-from Hack_Fmi.user.forms import LoginForm
+from Hack_Fmi.user.forms import LoginForm, RegisterForm
 
 # Create your views here.
 
@@ -13,27 +13,36 @@ from Hack_Fmi.user.forms import LoginForm
 @annon_required(redirect_url='profile')
 def register(request):
     if request.method == 'POST':
-        email = request.POST['email']
-        password = request.POST['password']
+        my_form = RegisterForm(request.POST)
+        import ipdb; ipdb.set_trace()
+        if my_form.is_valid():
+            email = my_form.cleaned_data['email']
+            password = my_form.cleaned_data['password']
+            first_name = my_form.cleaned_data.get('first_name', False)
+            last_name = my_form.cleaned_data.get('last_name', False)
+            # email = request.POST['email']
+            # password = request.POST['password']
 
-        if User.exists(email):
-            return HttpResponse('Сорри Мотори Този Юзър съществува!')
-        else:
-            password = pbkdf2_sha256.hash(password)
-            user = User(email=email, password=password)
-            user.save()
-            return redirect(reverse('login'))
-
-    return render(request, 'register.html', locals())
+            if User.exists(email):
+                return HttpResponse('Сорри Мотори Този Юзър съществува!')
+            else:
+                password = pbkdf2_sha256.hash(password)
+                # my_form.save()
+                user = User(email=email, password=password)
+                user.save()
+                return redirect(reverse('login'))
+    my_form = RegisterForm()
+    return render(request, 'register.html', {'my_form': my_form})
 
 
 @annon_required(redirect_url='profile')
-def login(request='Test'):
+def login(request):
     session_email = request.session.get('email', False)
     if session_email:
         return redirect(reverse('profile'))
     if request.method == 'POST':
         my_form = LoginForm(request.POST)
+        import ipdb; ipdb.set_trace()
 
         if my_form.is_valid():
             email = my_form.cleaned_data['email']
@@ -48,7 +57,8 @@ def login(request='Test'):
                 request.session['email'] = email
                 return redirect(reverse('profile'))
     my_form = LoginForm()
-    return render(request, 'login.html', locals())
+    import ipdb; ipdb.set_trace()
+    return render(request, 'login.html', {'my_form': my_form})# locals())
 
 
 @login_required(redirect_url='login')
