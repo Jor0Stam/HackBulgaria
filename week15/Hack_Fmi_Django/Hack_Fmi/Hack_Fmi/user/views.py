@@ -37,12 +37,12 @@ def register(request):
 
 @annon_required(redirect_url='profile')
 def login(request):
+    # import ipdb; ipdb.set_trace()
     session_email = request.session.get('email', False)
     if session_email:
         return redirect(reverse('profile'))
     if request.method == 'POST':
         my_form = LoginForm(request.POST)
-        import ipdb; ipdb.set_trace()
 
         if my_form.is_valid():
             email = my_form.cleaned_data['email']
@@ -57,8 +57,8 @@ def login(request):
                 request.session['email'] = email
                 return redirect(reverse('profile'))
     my_form = LoginForm()
-    import ipdb; ipdb.set_trace()
-    return render(request, 'login.html', {'my_form': my_form})# locals())
+    # import ipdb; ipdb.set_trace()
+    return render(request, 'login.html', {'my_form': my_form})
 
 
 @login_required(redirect_url='login')

@@ -3,25 +3,7 @@ EDIT COURSE:
 <form method='POST' action="">
 		{% csrf_token %}
 	
-	<div>
-	    <label>Course name:</label>
-	    <input type="string" name="course_name"/>
-	</div>
-
-	<div>
-	    <label>Course description:</label>
-	    <input type="string" name="course_description"/>
-	</div>
-
-	<div>
-	    <label>Course begins:</label>
-	    <input type="date" name="course_start"/>
-	</div>
-
-	<div>
-	    <label>Course ends:</label>
-	    <input type="date" name="course_end"/>
-	</div>
+	{{ form }}
 
 	    <input type="submit" value="Go!" />
 </form>
