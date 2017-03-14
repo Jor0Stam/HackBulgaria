@@ -1,5 +1,5 @@
 # Panda
-from json import dump, load
+from json import dump  # , load
 
 PANDA_INFO = "{name} who is {gender} with email {email}"
 INVALID_EMAIL = "The email you entered is invalid"
@@ -44,7 +44,7 @@ class Panda:
         return self.usr_name
 
     def email(self):
-        return self.usr_name
+        return self.usr_email
 
     def gender(self):
         return self.usr_gender
@@ -66,7 +66,6 @@ class PandasAlreadyFriends(Exception):
 
     def __init__(self, mssg="PandasAlreadyFriends"):
         super().__init__(mssg)
-
 
 
 class PandaSocialNetwork:
@@ -113,6 +112,7 @@ class PandaSocialNetwork:
         return self.connectios[panda1]
 
     def connection_level(self, panda1, panda2, cnt=1):
+        # import ipdb; ipdb.set_trace()
         if not self.is_in(panda1) or not self.is_in(panda2):
             return False
         er404 = False
@@ -123,8 +123,9 @@ class PandaSocialNetwork:
             cnt += 1
             new_visits = []
             for el in to_visit:
-                if self.connectios[el] and el not in to_visit:
+                if self.connectios[el]:  # and el not in to_visit:
                     new_visits.extend(self.connectios[el])
+                    new_visits = list(set(new_visits))
             to_visit.extend(new_visits)
             if cnt > self.size:
                 return -1
@@ -135,7 +136,7 @@ class PandaSocialNetwork:
         return False
 
     def are_connected(self, panda1, panda2):
-        return self.connection_level(panda1, panda2) != -1
+        return self.connection_level(panda1, panda2) not in [-1, False]
 
     def how_many_gender_in_network(self, level, panda, gender, cnt=1):
         if not self.is_in(panda):
@@ -165,3 +166,24 @@ class PandaSocialNetwork:
             for key, value in self.connectios.items():
                 for el in value:
                     dump({key.__str__(): el.serialize()}, outfile, indent=4)
+
+
+def main():
+    fb = PandaSocialNetwork()
+    pesho = Panda('pesho')
+    gosho = Panda('gosho')
+    ivan = Panda('ivan')
+    azis = Panda('azis')
+    strashko = Panda('strashko')
+    fb.make_friends(pesho, gosho)
+    fb.make_friends(gosho, ivan)
+    fb.make_friends(gosho, azis)
+    fb.make_friends(ivan, strashko)
+    stefcho = Panda('stefcho')
+    fb.add_panda(stefcho)
+    fb.make_friends(stefcho, strashko)
+    print(fb.connection_level(pesho, stefcho))
+
+
+if __name__ == '__main__':
+    main()
